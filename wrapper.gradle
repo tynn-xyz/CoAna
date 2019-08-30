@@ -1,0 +1,5 @@
+wrapper {
+    gradleVersion '5.6'
+    distributionType Wrapper.DistributionType.ALL
+}
+defaultTasks 'wrapper'
