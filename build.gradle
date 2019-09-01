@@ -32,9 +32,14 @@ subprojects {
                 }
             }
         }
+    }
 
-        dependencies {
-            implementation Deps.kotlin.stdlib
+    plugins.withType(JacocoPlugin) {
+        jacoco.toolVersion = '0.8.4'
+
+        tasks.withType(JacocoReport) {
+            check.dependsOn it
+            reports.xml.enabled true
         }
     }
 }
