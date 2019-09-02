@@ -1,6 +1,20 @@
 # CoAna
-[![Build][travis-svg]][travis]
-[![Coverage][codecov-svg]][codecov]
+[![Build][travis-shield]][travis]
+[![Coverage][codecov-shield]][codecov]
+
+_Coroutine Analytics_ `MetaData` elements
+
+## MetaData
+
+    object StringKey : Key<String>
+
+    val meta = MetaData(StringKey, "stringValue")
+
+    val data = withContext(meta) {
+        coroutineContext[StringKey]
+    }
+
+    assert(meta == data)
 
 
 ## License
@@ -20,7 +34,7 @@
     limitations under the License.
 
 
-  [travis-svg]: https://travis-ci.com/tynn-xyz/CoAna.svg
+  [travis-shield]: https://travis-ci.com/tynn-xyz/CoAna.svg
   [travis]: https://travis-ci.com/tynn-xyz/CoAna
-  [codecov-svg]: https://codecov.io/gh/tynn-xyz/CoAna/badge.svg
+  [codecov-shield]: https://codecov.io/gh/tynn-xyz/CoAna/badge.svg
   [codecov]: https://codecov.io/gh/tynn-xyz/CoAna

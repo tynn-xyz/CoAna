@@ -3,6 +3,5 @@ apply plugin: 'jacoco'
 
 dependencies {
     api Deps.kotlinx.coroutines.core
-    compileOnly Deps.kotlin.stdlib
     testImplementation Deps.kotlin.test.junit
 }
