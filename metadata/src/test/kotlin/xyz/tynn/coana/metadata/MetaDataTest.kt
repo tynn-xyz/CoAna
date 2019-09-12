@@ -26,6 +26,17 @@ class MetaDataTest {
     }
 
     @Test
+    fun `key parameter should be contravariant to Value`() = runBlocking {
+        val key = object : MetaData.Key<Number> {}
+
+        val metadata = withContext(MetaData<Double>(key, doubleValue)) {
+            coroutineContext[key]
+        }
+
+        assertEquals(MetaData<Number>(key, doubleValue), metadata)
+    }
+
+    @Test
     fun `context should contain metadata`() = runBlocking {
         val metadata = coroutineScope {
             withContext(MetaData(Key, stringValue)) {

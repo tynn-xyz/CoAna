@@ -3,7 +3,7 @@ package xyz.tynn.coana.metadata
 import kotlin.coroutines.CoroutineContext
 
 data class MetaData<Value>(
-    override val key: Key<Value>,
+    override val key: Key<in Value>,
     val value: Value
 ) : CoroutineContext.Element {
     interface Key<V> : CoroutineContext.Key<MetaData<V>>
