@@ -17,6 +17,8 @@ subprojects {
     }
 
     plugins.withType(com.android.build.gradle.BasePlugin) {
+        project.apply plugin: 'kotlin-android'
+
         android {
             compileSdkVersion 29
 
@@ -39,7 +41,11 @@ subprojects {
 
         tasks.withType(JacocoReport) {
             check.dependsOn it
-            reports.xml.enabled true
+            reports {
+                csv.enabled false
+                html.enabled true
+                xml.enabled true
+            }
         }
     }
 }

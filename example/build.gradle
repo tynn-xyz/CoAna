@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 android {
     defaultConfig {
@@ -18,5 +17,5 @@ android {
 }
 
 dependencies {
-    implementation Deps.kotlin.stdlib
+    implementation project(':library')
 }
