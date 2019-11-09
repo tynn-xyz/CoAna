@@ -1,39 +1,5 @@
-apply plugin: 'com.android.library'
+apply plugin: 'kotlin'
 apply plugin: 'jacoco'
-
-android {
-    defaultConfig {
-        versionCode 1
-    }
-
-    libraryVariants.all {
-        def scope = variantData.scope
-        def taskName = scope.getTaskName('jacoco', 'TestReport')
-        tasks.register(taskName, JacocoReport) {
-            group = 'Verification'
-            description = "Creates test coverage Jacoco reports for the $name variant."
-
-            def unitTestTask = tasks[scope.getTaskName('test', 'UnitTest')]
-            dependsOn unitTestTask
-            executionData unitTestTask
-
-            sourceDirectories.setFrom sourceSets.collectMany {
-                it.kotlin.srcDirTrees.collect { it.dir }
-            }.unique()
-
-            classDirectories.setFrom files([
-                    javaCompileProvider.get(),
-                    tasks[scope.getTaskName('compile', 'Kotlin')]
-            ].sum {
-                fileTree(dir: it.destinationDir, excludes: [
-                        '**/BuildConfig.class',
-                        '**/Manifest.class', '**/Manifest$*.class',
-                        '**/R.class', '**/R$*.class',
-                ])
-            })
-        }
-    }
-}
 
 dependencies {
     api Deps.kotlinx.coroutines.core

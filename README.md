@@ -1,4 +1,4 @@
-# CoAna
+# Coana
 [![Build][travis-shield]][travis]
 [![Coverage][codecov-shield]][codecov]
 
@@ -34,7 +34,7 @@ _Coroutine Analytics_ `MetaData` elements
     limitations under the License.
 
 
-  [travis-shield]: https://travis-ci.com/tynn-xyz/CoAna.svg
-  [travis]: https://travis-ci.com/tynn-xyz/CoAna
-  [codecov-shield]: https://codecov.io/gh/tynn-xyz/CoAna/badge.svg
-  [codecov]: https://codecov.io/gh/tynn-xyz/CoAna
+  [travis-shield]: https://travis-ci.com/tynn-xyz/Coana.svg
+  [travis]: https://travis-ci.com/tynn-xyz/Coana
+  [codecov-shield]: https://codecov.io/gh/tynn-xyz/Coana/badge.svg
+  [codecov]: https://codecov.io/gh/tynn-xyz/Coana
