@@ -1,7 +1,5 @@
 apply plugin: 'kotlin'
-apply plugin: 'jacoco'
 
 dependencies {
-    api Deps.kotlinx.coroutines.core
-    testImplementation Deps.kotlin.test.junit
+    testImplementation Deps.kotlinx.coroutines.core
 }

@@ -1,11 +1,15 @@
+//  Copyright 2019 Christian Schmitz
+//  SPDX-License-Identifier: Apache-2.0
+
 package xyz.tynn.coana
 
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import xyz.tynn.coana.test.TestProperty
+import xyz.tynn.coana.test.TestPropertyKey
 import kotlin.coroutines.CoroutineContext.Element
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class CoroutinesKtTest {
 
@@ -15,11 +19,12 @@ class CoroutinesKtTest {
     val double = 2.2
     val string = "3.3.3"
 
-    @Test(expected = IllegalStateException::class)
-    fun `coana should fail without a scope`() {
-        runBlocking {
+    @Test
+    fun `coana should fail without a scope`() = runBlocking {
+        assertFailsWith<IllegalStateException> {
             coana
         }
+        Unit
     }
 
     @Test
@@ -41,8 +46,8 @@ class CoroutinesKtTest {
     @Test
     fun `coana should have a double property when added`() = runBlocking {
         withCoanaScope(scope) {
-            withContext(CoanaProperty(TestProperty.Double, double)) {
-                assertEquals(double, coana.doubleProperties[TestProperty.Double])
+            withContext(CoanaProperty(TestPropertyKey.Double, double)) {
+                assertEquals(double, coana.doubleProperties[TestPropertyKey.Double])
             }
         }
     }
@@ -50,8 +55,8 @@ class CoroutinesKtTest {
     @Test
     fun `coana should have a long property when added`() = runBlocking {
         withCoanaScope(scope) {
-            withContext(CoanaProperty(TestProperty.Long, long)) {
-                assertEquals(long, coana.longProperties[TestProperty.Long])
+            withContext(CoanaProperty(TestPropertyKey.Long, long)) {
+                assertEquals(long, coana.longProperties[TestPropertyKey.Long])
             }
         }
     }
@@ -59,8 +64,8 @@ class CoroutinesKtTest {
     @Test
     fun `coana should have a string property when added`() = runBlocking {
         withCoanaScope(scope) {
-            withContext(CoanaProperty(TestProperty.String, string)) {
-                assertEquals(string, coana.stringProperties[TestProperty.String])
+            withContext(CoanaProperty(TestPropertyKey.String, string)) {
+                assertEquals(string, coana.stringProperties[TestPropertyKey.String])
             }
         }
     }
@@ -69,7 +74,7 @@ class CoroutinesKtTest {
     fun `coana should skip CoanaContextProperty without MetaData`() = runBlocking {
         withCoanaScope(scope) {
             withContext(object : Element {
-                override val key get() = TestProperty.String
+                override val key get() = TestPropertyKey.String
             }) {
                 assertEquals(emptyMap(), coana.stringProperties)
             }
@@ -80,7 +85,7 @@ class CoroutinesKtTest {
     fun `coana should skip CoanaProperty without MetaData`() = runBlocking {
         withCoanaScope(scope) {
             withContext(object : Element {
-                override val key get() = TestProperty.String
+                override val key get() = TestPropertyKey.String
             }) {
                 assertEquals(emptyMap(), coana.stringProperties)
             }
@@ -90,7 +95,7 @@ class CoroutinesKtTest {
     @Test
     fun `withCoanaScope should add a CoanaScope`() = runBlocking {
         val value = withCoanaScope(scope) {
-            coroutineContext[CoanaKey.Scope]?.value
+            coroutineContext[CoanaScopeKey]?.value
         }
 
         assertEquals(CoanaValue.String(scope), value)
@@ -99,7 +104,7 @@ class CoroutinesKtTest {
     @Test
     fun `withCoanaContext should add a CoanaContext`() = runBlocking {
         val value = withCoanaContext(context) {
-            coroutineContext[CoanaKey.Context]?.value
+            coroutineContext[CoanaContextKey]?.value
         }
 
         assertEquals(CoanaValue.String(context), value)
@@ -107,8 +112,8 @@ class CoroutinesKtTest {
 
     @Test
     fun `withCoanaProperty should add a Double CoanaProperty`() = runBlocking {
-        val value = withCoanaProperty(TestProperty.Double, double) {
-            coroutineContext[TestProperty.Double]?.value
+        val value = withCoanaProperty(TestPropertyKey.Double, double) {
+            coroutineContext[TestPropertyKey.Double]?.value
         }
 
         assertEquals(CoanaValue.Double(double), value)
@@ -116,8 +121,8 @@ class CoroutinesKtTest {
 
     @Test
     fun `withCoanaProperty should add a Long CoanaProperty`() = runBlocking {
-        val value = withCoanaProperty(TestProperty.Long, long) {
-            coroutineContext[TestProperty.Long]?.value
+        val value = withCoanaProperty(TestPropertyKey.Long, long) {
+            coroutineContext[TestPropertyKey.Long]?.value
         }
 
         assertEquals(CoanaValue.Long(long), value)
@@ -125,8 +130,8 @@ class CoroutinesKtTest {
 
     @Test
     fun `withCoanaProperty should add a String CoanaProperty`() = runBlocking {
-        val value = withCoanaProperty(TestProperty.String, string) {
-            coroutineContext[TestProperty.String]?.value
+        val value = withCoanaProperty(TestPropertyKey.String, string) {
+            coroutineContext[TestPropertyKey.String]?.value
         }
 
         assertEquals(CoanaValue.String(string), value)

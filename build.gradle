@@ -1,3 +1,6 @@
+//  Copyright 2019 Christian Schmitz
+//  SPDX-License-Identifier: Apache-2.0
+
 buildscript {
     repositories {
         google()
@@ -6,14 +9,37 @@ buildscript {
 
     dependencies {
         classpath Deps.android.plugin
-        classpath Deps.kotlin.plugin
     }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.50' apply false
+    id 'org.jetbrains.dokka' version '0.10.0'
+}
+
+repositories.jcenter()
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/docs"
 }
 
 subprojects {
     repositories {
         google()
         jcenter()
+    }
+
+    plugins.withId('kotlin') {
+        project.apply {
+            plugin 'org.jetbrains.dokka'
+            plugin 'jacoco'
+        }
+
+        dependencies {
+            implementation Deps.kotlin.stdlib
+            testImplementation Deps.kotlin.test.junit
+        }
     }
 
     plugins.withType(com.android.build.gradle.BasePlugin) {
@@ -33,6 +59,25 @@ subprojects {
                     it.name == 'java' ? "$it.parent/kotlin" : null
                 }
             }
+        }
+
+        dependencies {
+            implementation Deps.kotlin.stdlib
+        }
+    }
+
+    plugins.withId('org.jetbrains.dokka') {
+        rootProject.dokka.subProjects += project.name
+
+        dokka {
+            outputFormat = 'html'
+            outputDirectory = "$buildDir/kdoc"
+        }
+
+        tasks.register('dokkaJar', Jar) {
+            dependsOn dokka
+            classifier 'kdoc'
+            from fileTree(dokka.outputDirectory)
         }
     }
 

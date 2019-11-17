@@ -1,28 +1,30 @@
+//  Copyright 2019 Christian Schmitz
+//  SPDX-License-Identifier: Apache-2.0
+
 package xyz.tynn.coana.metadata
 
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import xyz.tynn.coana.metadata.test.TestKey
+import xyz.tynn.coana.metadata.test.doubleValue
+import xyz.tynn.coana.metadata.test.intValue
+import xyz.tynn.coana.metadata.test.stringValue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MetaDataTest {
-
-    object Key : MetaData.Key<String> {
-        @Suppress("UNCHECKED_CAST")
-        fun <T> cast() = this as MetaData.Key<T>
-    }
-
-    val intValue = 1
-    val doubleValue = 2.2
-    val stringValue = "3.3.3"
+class CoroutinesKtTest {
 
     @Test
     fun `MetaData should contain key value pair`() = runBlocking {
-        val metadata = MetaData(Key, stringValue)
+        val metadata = coroutineScope {
+            withContext(MetaData(TestKey, stringValue)) {
+                coroutineContext[TestKey]
+            }
+        }
 
-        assertEquals(Key, metadata.key)
-        assertEquals(stringValue, metadata.value)
+        assertEquals(TestKey, metadata?.key)
+        assertEquals(stringValue, metadata?.value)
     }
 
     @Test
@@ -39,47 +41,47 @@ class MetaDataTest {
     @Test
     fun `context should contain metadata`() = runBlocking {
         val metadata = coroutineScope {
-            withContext(MetaData(Key, stringValue)) {
-                coroutineContext[Key]
+            withContext(MetaData(TestKey, stringValue)) {
+                coroutineContext[TestKey]
             }
         }
 
-        assertEquals(MetaData(Key, stringValue), metadata)
+        assertEquals(MetaData(TestKey, stringValue), metadata)
     }
 
     @Test
     fun `context should override metadata`() = runBlocking {
-        val metadata = withContext(MetaData(Key.cast(), intValue)) {
-            withContext(MetaData(Key.cast(), doubleValue)) {
-                coroutineContext[Key.cast<Double>()]
+        val metadata = withContext(MetaData(TestKey.cast(), intValue)) {
+            withContext(MetaData(TestKey.cast(), doubleValue)) {
+                coroutineContext[TestKey.cast<Double>()]
             }
         }
 
-        assertEquals(MetaData(Key.cast(), doubleValue), metadata)
+        assertEquals(MetaData(TestKey.cast(), doubleValue), metadata)
     }
 
     @Test
     fun `context should collect metadata`() = runBlocking {
         val key2 = object : MetaData.Key<Double> {}
 
-        val metadata = withContext(MetaData(Key.cast(), intValue)) {
+        val metadata = withContext(MetaData(TestKey.cast(), intValue)) {
             withContext(MetaData(key2, doubleValue)) {
-                coroutineContext[Key.cast<Int>()] to coroutineContext[key2]
+                coroutineContext[TestKey.cast<Int>()] to coroutineContext[key2]
             }
         }
 
-        assertEquals(MetaData(Key.cast(), intValue) to MetaData(key2, doubleValue), metadata)
+        assertEquals(MetaData(TestKey.cast(), intValue) to MetaData(key2, doubleValue), metadata)
     }
 
     @Test
     fun `metadata should contain latest metadata in context`() = runBlocking {
-        val metadata = withContext(MetaData(Key.cast(), intValue)) {
-            withContext(MetaData(Key.cast(), doubleValue)) {
+        val metadata = withContext(MetaData(TestKey.cast(), intValue)) {
+            withContext(MetaData(TestKey.cast(), doubleValue)) {
                 coroutineContext.metadata
             }
         }
 
-        assertEquals(setOf(MetaData(Key.cast(), doubleValue)), metadata)
+        assertEquals(setOf(MetaData(TestKey.cast(), doubleValue)), metadata)
     }
 
     @Test
@@ -87,7 +89,7 @@ class MetaDataTest {
         val key2 = object : MetaData.Key<Double> {}
         val key3 = object : MetaData.Key<Int> {}
 
-        val metadata = withContext(MetaData(Key, stringValue)) {
+        val metadata = withContext(MetaData(TestKey, stringValue)) {
             withContext(MetaData(key2, doubleValue) + MetaData(key3, intValue)) {
                 coroutineContext.metadata
             }
@@ -95,7 +97,7 @@ class MetaDataTest {
 
         assertEquals(
             setOf(
-                MetaData(Key, stringValue),
+                MetaData(TestKey, stringValue),
                 MetaData(key2, doubleValue),
                 MetaData(key3, intValue)
             ),

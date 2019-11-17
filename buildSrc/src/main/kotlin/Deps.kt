@@ -10,20 +10,24 @@ object Deps {
     }
 
     object Kotlin {
-        const val plugin = "${Groups.kotlin}:kotlin-gradle-plugin:${Versions.kotlin}"
-        const val stdlib = "${Groups.kotlin}:kotlin-stdlib-jdk7:${Versions.kotlin}"
+        private const val group = Groups.kotlin
+
+        const val stdlib = "$group:kotlin-stdlib"
         val test = Test
 
         object Test {
-            const val junit = "${Groups.kotlin}:kotlin-test-junit:${Versions.kotlin}"
+            const val junit = "${Groups.kotlin}:kotlin-test-junit"
         }
     }
 
     object Kotlinx {
+        private const val group = Groups.kotlinx
+        private const val version = Versions.kotlinx
+
         val coroutines = Coroutines
 
         object Coroutines {
-            const val core = "${Groups.kotlinx}:kotlinx-coroutines-core:${Versions.kotlinx}"
+            const val core = "$group:kotlinx-coroutines-core:$version"
         }
     }
 }

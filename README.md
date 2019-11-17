@@ -4,6 +4,48 @@
 
 _Coroutine Analytics_ `MetaData` elements
 
+## Get started
+
+### `CoanaScope` and `CoanaContext`
+
+    val coanaScope = CoanaScope("scope")
+    val coanaContext = CoanaContext("context")
+
+### `CoanaPropertyKey`
+
+    sealed class PropertyKey<Value> : CoanaPropertyKey<Value> {
+        object ApiVersion : PropertyKey<Double>
+        object AppVersion : PropertyKey<Long>
+        object Dependency : PropertyKey<Long>
+    }
+
+### `CoanaProperty`
+
+    val coanaDouble = CoanaProperty(ApiVersion, 1.2)
+    val coanaLong = CoanaProperty(AppVersion, 3)
+    val coanaString = CoanaProperty(Dependency, "4.5.6")
+
+### `Coana`
+
+    assert(coana.scope == "scope")
+    assert(coana.context == "context")
+    assert(coana.doubleProperties[ApiVersion] == 1.2)
+    assert(coana.longProperties[ApiVersion] == 3)
+    assert(coana.stringProperties[Dependency] == "4.5.6")
+
+### Coroutine _DSL_
+
+    val coana = withCoanaScope("scope") {
+        withCoanaContext("context) {
+            withCoanaProperty(ApiVersion, 1.2) {
+                withContext(coanaLong + coanaString) {
+                    coana
+                }
+            }
+        }
+    }
+
+
 ## MetaData
 
     object StringKey : Key<String>

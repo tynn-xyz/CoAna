@@ -1,8 +1,6 @@
 apply plugin: 'kotlin'
-apply plugin: 'jacoco'
 
 dependencies {
-    api Deps.kotlinx.coroutines.core
-    implementation project(':metadata')
-    testImplementation Deps.kotlin.test.junit
+    api project(':metadata')
+    implementation Deps.kotlinx.coroutines.core
 }
