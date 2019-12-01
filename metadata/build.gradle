@@ -3,3 +3,12 @@ apply plugin: 'kotlin'
 dependencies {
     testImplementation Deps.kotlinx.coroutines.core
 }
+
+publishing {
+    publications.all {
+        pom {
+            name = 'Coana MetaData'
+            description = 'Kotlin Coroutine MetaData elements'
+        }
+    }
+}

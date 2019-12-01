@@ -1,10 +1,29 @@
 # Coana
 [![Build][travis-shield]][travis]
+[![Download][bintray-shield]][bintray]
 [![Coverage][codecov-shield]][codecov]
 
-_Coroutine Analytics_ `MetaData` elements
+#### _Coroutine Analytics_ `MetaData` elements
 
-## Get started
+_Coana_ provides a simple model to attach and access properties for analysis purpose.
+
+
+## Installation
+
+    implementation "xyz.tynn.coana:library:$coanaVersion"
+
+
+## Usage
+
+The `Coana` model contains a scope and a context to distinguish between
+different scenarios. Additional to this it contains `Double`, `Long` and
+`String` properties mapped to a set of predefined keys. It is accessible with
+the `CoroutineScope.coana` and `CoroutineContext.coana` extensions.
+
+Every single property is a `CoroutineContext.Element` by itself and is
+contained within the surrounding context. Adding another element with the same
+key will override the element while the original is contained within the
+original context.
 
 ### `CoanaScope` and `CoanaContext`
 
@@ -16,7 +35,7 @@ _Coroutine Analytics_ `MetaData` elements
     sealed class PropertyKey<Value> : CoanaPropertyKey<Value> {
         object ApiVersion : PropertyKey<Double>
         object AppVersion : PropertyKey<Long>
-        object Dependency : PropertyKey<Long>
+        object Dependency : PropertyKey<String>
     }
 
 ### `CoanaProperty`
@@ -48,6 +67,9 @@ _Coroutine Analytics_ `MetaData` elements
 
 ## MetaData
 
+The `MetaData` provides a generic implementation of a _key-value_ pair attached
+to a `CoroutineContext`.
+
     object StringKey : Key<String>
 
     val meta = MetaData(StringKey, "stringValue")
@@ -57,6 +79,13 @@ _Coroutine Analytics_ `MetaData` elements
     }
 
     assert(meta == data)
+
+Use `CoroutineContext.metadata` to get all a set of all `MetaData` attached
+to the context.
+
+### Download
+
+    implementation "xyz.tynn.coana:metadata:$coanaVersion"
 
 
 ## License
@@ -80,3 +109,5 @@ _Coroutine Analytics_ `MetaData` elements
   [travis]: https://travis-ci.com/tynn-xyz/Coana
   [codecov-shield]: https://codecov.io/gh/tynn-xyz/Coana/badge.svg
   [codecov]: https://codecov.io/gh/tynn-xyz/Coana
+  [bintray-shield]: https://api.bintray.com/packages/tynn-xyz/maven/Coana/images/download.svg
+  [bintray]: https://bintray.com/tynn-xyz/maven/Coana/_latestVersion

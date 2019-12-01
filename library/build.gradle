@@ -4,3 +4,12 @@ dependencies {
     api project(':metadata')
     implementation Deps.kotlinx.coroutines.core
 }
+
+publishing {
+    publications.all {
+        pom {
+            name = 'Coana'
+            description = 'Kotlin Coroutine Analytics MetaData elements'
+        }
+    }
+}
