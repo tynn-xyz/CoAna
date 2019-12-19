@@ -1,7 +1,9 @@
 apply plugin: 'kotlin'
 
 dependencies {
+    api Deps.kotlin.stdlib
     api project(':metadata')
+
     implementation Deps.kotlinx.coroutines.core
 }
 

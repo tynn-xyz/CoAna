@@ -1,32 +1,27 @@
-@file:Suppress("SpellCheckingInspection")
-
+@Suppress("SpellCheckingInspection")
 object Deps {
-    val android = Android
     val kotlin = Kotlin
     val kotlinx = Kotlinx
 
-    object Android {
-        const val plugin = "${Groups.android}:gradle:${Versions.android}"
-    }
-
     object Kotlin {
-        private const val group = Groups.kotlin
+        private const val group = "org.jetbrains.kotlin"
 
         const val stdlib = "$group:kotlin-stdlib"
         val test = Test
 
         object Test {
-            const val junit = "${Groups.kotlin}:kotlin-test-junit"
+            const val junit = "org.jetbrains.kotlin:kotlin-test-junit"
         }
     }
 
     object Kotlinx {
-        private const val group = Groups.kotlinx
-        private const val version = Versions.kotlinx
+        private const val group = "org.jetbrains.kotlinx"
 
         val coroutines = Coroutines
 
         object Coroutines {
+            private const val version = "1.3.0"
+
             const val core = "$group:kotlinx-coroutines-core:$version"
         }
     }
