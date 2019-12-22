@@ -22,6 +22,7 @@ object Deps {
         object Coroutines {
             private const val version = "1.3.0"
 
+            const val android = "$group:kotlinx-coroutines-android:$version"
             const val core = "$group:kotlinx-coroutines-core:$version"
         }
     }

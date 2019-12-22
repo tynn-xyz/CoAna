@@ -2,4 +2,10 @@
 
     <string name="app_name">Coana Example</string>
 
+    <string name="action_submit">Submit</string>
+    <string name="action_submit_context">Submit with context</string>
+
+    <string name="caption_example">Adjust the data and submit</string>
+
+    <string name="hint_note">Note</string>
 </resources>
