@@ -28,9 +28,30 @@ allprojects {
 subprojects {
     group = 'xyz.tynn.coana'
 
+    tasks.withType(Test) {
+        testLogging {
+            events "failed"
+            exceptionFormat "full"
+            showCauses true
+            showExceptions true
+            showStackTraces true
+        }
+    }
+
     plugins.withId('kotlin') {
         project.apply plugin: 'jacoco'
         project.apply plugin: 'maven-publish'
+
+        java.withSourcesJar()
+        components.java.addVariantsFromConfiguration(configurations.kdocElements) {}
+
+        publishing {
+            publications {
+                kotlinJvm(MavenPublication) {
+                    from components.java
+                }
+            }
+        }
 
         dependencies {
             testImplementation Deps.kotlin.test.junit
@@ -55,6 +76,15 @@ subprojects {
                     it.name == 'java' ? "$it.parent/kotlin" : null
                 }
             }
+
+            compileOptions {
+                sourceCompatibility '1.8'
+                targetCompatibility '1.8'
+            }
+
+            kotlinOptions {
+                jvmTarget = '1.8'
+            }
         }
 
         dependencies {
@@ -77,6 +107,13 @@ subprojects {
         dokka {
             outputFormat = 'html'
             outputDirectory = "$buildDir/kdoc"
+
+            configuration {
+                externalDocumentationLink {
+                    url = new URL('https://tynn-xyz.github.io/Coana/')
+                    packageListUrl = new URL(url, 'package-list')
+                }
+            }
         }
 
         tasks.register('kdocJar', Jar) {
@@ -106,9 +143,6 @@ subprojects {
     plugins.withType(MavenPublishPlugin) {
         project.apply plugin: 'org.jetbrains.dokka'
         project.apply from: "$rootDir/publish.gradle"
-
-        java.withSourcesJar()
-        components.java.addVariantsFromConfiguration(configurations.kdocElements) {}
     }
 }
 
