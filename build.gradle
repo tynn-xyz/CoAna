@@ -23,6 +23,17 @@ allprojects {
         mavenCentral()
         jcenter()
     }
+
+    plugins.withId('org.jetbrains.dokka') {
+        dokka {
+            configuration {
+                externalDocumentationLink {
+                    url = new URL('https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/')
+                    packageListUrl = new URL(url, 'package-list')
+                }
+            }
+        }
+    }
 }
 
 subprojects {
@@ -107,13 +118,6 @@ subprojects {
         dokka {
             outputFormat = 'html'
             outputDirectory = "$buildDir/kdoc"
-
-            configuration {
-                externalDocumentationLink {
-                    url = new URL('https://tynn-xyz.github.io/Coana/')
-                    packageListUrl = new URL(url, 'package-list')
-                }
-            }
         }
 
         tasks.register('kdocJar', Jar) {

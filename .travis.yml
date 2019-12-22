@@ -33,7 +33,7 @@ cache:
     - $HOME/.android/build-cache
 
 
-script: ./gradlew build check dokka
+script: ./gradlew build check :dokka
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

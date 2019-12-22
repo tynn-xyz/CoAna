@@ -7,6 +7,15 @@ dependencies {
     implementation Deps.kotlinx.coroutines.core
 }
 
+dokka {
+    configuration {
+        externalDocumentationLink {
+            url = new URL('https://tynn-xyz.github.io/Coana/')
+            packageListUrl = new URL(url, 'package-list')
+        }
+    }
+}
+
 publishing {
     publications.all {
         pom {

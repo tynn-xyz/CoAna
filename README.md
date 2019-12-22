@@ -49,7 +49,7 @@ original context.
     assert(coana.scope == "scope")
     assert(coana.context == "context")
     assert(coana.doubleProperties[ApiVersion] == 1.2)
-    assert(coana.longProperties[ApiVersion] == 3)
+    assert(coana.longProperties[AppVersion] == 3)
     assert(coana.stringProperties[Dependency] == "4.5.6")
 
 ### Coroutine _DSL_
