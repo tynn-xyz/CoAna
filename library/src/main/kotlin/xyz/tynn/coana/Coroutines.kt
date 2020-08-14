@@ -54,7 +54,6 @@ val CoroutineContext.coana
         acc
     }.seal()
 
-
 /**
  * Creates a `CoanaScope` [CoroutineContext] element with value [scope].
  */
@@ -107,7 +106,6 @@ fun CoanaProperty(
     key,
     CoanaValue.String(value)
 )
-
 
 /**
  * Calls the [block] with [CoanaScope] with value [scope] attached to its [CoanaContext].

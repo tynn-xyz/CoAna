@@ -1,3 +1,6 @@
+//  Copyright 2019 Christian Schmitz
+//  SPDX-License-Identifier: Apache-2.0
+
 package xyz.tynn.coana.example
 
 import android.content.Context

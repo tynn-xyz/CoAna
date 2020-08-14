@@ -1,7 +1,7 @@
 //  Copyright 2019 Christian Schmitz
 //  SPDX-License-Identifier: Apache-2.0
 
-package xyz.tynn.coana.metadata.test
+package xyz.tynn.coana.metadata
 
 val intValue = 1
 val doubleValue = 2.2

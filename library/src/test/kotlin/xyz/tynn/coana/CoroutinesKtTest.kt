@@ -5,7 +5,6 @@ package xyz.tynn.coana
 
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import xyz.tynn.coana.test.TestPropertyKey
 import kotlin.coroutines.CoroutineContext.Element
 import kotlin.test.Test
 import kotlin.test.assertEquals

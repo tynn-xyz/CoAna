@@ -12,4 +12,3 @@ val CoroutineContext.metadata
     get() = fold(mutableSetOf<MetaData<*>>()) { acc, element ->
         acc.apply { (element as? MetaData<*>)?.let(::add) }
     }.toSet()
-

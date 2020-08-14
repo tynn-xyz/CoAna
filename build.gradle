@@ -1,20 +1,12 @@
 //  Copyright 2019 Christian Schmitz
 //  SPDX-License-Identifier: Apache-2.0
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
-    }
-}
-
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.61' apply false
-    id 'org.jetbrains.dokka' version '0.10.0'
+    id 'com.android.application' version '4.0.1' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72' apply false
+    id 'org.jetbrains.dokka' version '0.10.1'
+    id 'xyz.tynn.jvm.kdoc' version '0.1.0' apply false
+    id 'xyz.tynn.idea.fix' version '0.1.2'
 }
 
 allprojects {
@@ -53,8 +45,10 @@ subprojects {
         project.apply plugin: 'jacoco'
         project.apply plugin: 'maven-publish'
 
-        java.withSourcesJar()
-        components.java.addVariantsFromConfiguration(configurations.kdocElements) {}
+        java {
+            withKdocJar()
+            withSourcesJar()
+        }
 
         publishing {
             publications {
@@ -65,46 +59,12 @@ subprojects {
         }
 
         dependencies {
-            testImplementation Deps.kotlin.test.junit
-        }
-    }
-
-    plugins.withType(com.android.build.gradle.BasePlugin) {
-        project.apply plugin: 'kotlin-android'
-
-        android {
-            compileSdkVersion 29
-            buildToolsVersion '29.0.2'
-
-            defaultConfig {
-                minSdkVersion 14
-                targetSdkVersion 29
-                testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-            }
-
-            sourceSets.all {
-                it.java.srcDirs += it.java.srcDirs.findResults {
-                    it.name == 'java' ? "$it.parent/kotlin" : null
-                }
-            }
-
-            compileOptions {
-                sourceCompatibility '1.8'
-                targetCompatibility '1.8'
-            }
-
-            kotlinOptions {
-                jvmTarget = '1.8'
-            }
-        }
-
-        dependencies {
-            implementation Deps.kotlin.stdlib
+            testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
         }
     }
 
     plugins.withType(JacocoPlugin) {
-        jacoco.toolVersion = '0.8.4'
+        jacoco.toolVersion = '0.8.5'
 
         tasks.withType(JacocoReport) {
             check.dependsOn it
@@ -112,40 +72,9 @@ subprojects {
         }
     }
 
-    plugins.withId('org.jetbrains.dokka') {
-        rootProject.dokka.subProjects += project.name
-
-        dokka {
-            outputFormat = 'html'
-            outputDirectory = "$buildDir/kdoc"
-        }
-
-        tasks.register('kdocJar', Jar) {
-            dependsOn dokka
-            classifier 'kdoc'
-            from fileTree(dokka.outputDirectory)
-        }
-
-        configurations {
-            kdocElements {
-                artifacts {
-                    kdocElements tasks.named('kdocJar')
-                }
-                attributes {
-                    attribute Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION)
-                    attribute Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling, Bundling.EXTERNAL)
-                    attribute DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'kdoc')
-                    attribute Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME)
-                }
-                canBeResolved = false
-                canBeConsumed = true
-                description = 'kdoc elements for main.'
-            }
-        }
-    }
-
     plugins.withType(MavenPublishPlugin) {
-        project.apply plugin: 'org.jetbrains.dokka'
+        rootProject.dokka.subProjects += project.name
+        project.apply plugin: 'xyz.tynn.jvm.kdoc'
         project.apply from: "$rootDir/publish.gradle"
     }
 }

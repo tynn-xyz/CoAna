@@ -6,10 +6,6 @@ package xyz.tynn.coana.metadata
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import xyz.tynn.coana.metadata.test.TestKey
-import xyz.tynn.coana.metadata.test.doubleValue
-import xyz.tynn.coana.metadata.test.intValue
-import xyz.tynn.coana.metadata.test.stringValue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
