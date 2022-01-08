@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CoroutinesKtTest {
+internal class CoroutinesKtTest {
 
     @Test
     fun `MetaData should contain key value pair`() = runBlocking {
@@ -19,7 +19,7 @@ class CoroutinesKtTest {
             }
         }
 
-        assertEquals(TestKey, metadata?.key)
+        assertEquals(TestKey.cast(), metadata?.key)
         assertEquals(stringValue, metadata?.value)
     }
 
@@ -27,6 +27,7 @@ class CoroutinesKtTest {
     fun `key parameter should be contravariant to Value`() = runBlocking {
         val key = object : MetaData.Key<Number> {}
 
+        @Suppress("RemoveExplicitTypeArguments")
         val metadata = withContext(MetaData<Double>(key, doubleValue)) {
             coroutineContext[key]
         }

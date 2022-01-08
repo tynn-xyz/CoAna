@@ -8,4 +8,4 @@ import xyz.tynn.coana.metadata.MetaData
 /**
  * Abstract definition of a [MetaData.Key] for [Coana] properties.
  */
-interface CoanaPropertyKey<Value> : MetaData.Key<CoanaValue<Value>>
+public interface CoanaPropertyKey<Value> : MetaData.Key<CoanaValue<Value>>

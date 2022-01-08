@@ -1,10 +1,23 @@
-publishing {
+group = 'xyz.tynn.coana'
+
+if (project != rootProject) publishing {
+    apply plugin: 'signing'
+
+    signing {
+        final signingKey = System.env.SIGNING_KEY
+        final signingPassword = System.env.SIGNING_PASSWORD
+        useInMemoryPgpKeys(signingKey, signingPassword)
+    }
+
     publications.all {
+        signing.sign it
         pom {
+            url = System.env.PROJECT_URL
             developers {
                 developer {
                     id = 'tynn'
                     name = 'Christian Schmitz'
+                    email = 'christian@tynn.xyz'
                 }
             }
             licenses {
@@ -13,16 +26,17 @@ publishing {
                     url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
                 }
             }
+            scm {
+                url = System.env.PROJECT_URL
+            }
         }
     }
+} else nexusPublishing {
     repositories {
-        maven {
-            name = "bintray"
-            url = 'https://api.bintray.com/maven/tynn-xyz/maven/Coana/;publish=1'
-            credentials {
-                username System.env.BINTRAY_USER
-                password System.env.BINTRAY_KEY
-            }
+        sonatype {
+            final baseUrl = "https://s01.oss.sonatype.org"
+            nexusUrl.set(uri("$baseUrl/service/local/"))
+            snapshotRepositoryUrl.set(uri("$baseUrl/content/repositories/snapshots/"))
         }
     }
 }

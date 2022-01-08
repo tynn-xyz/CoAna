@@ -11,5 +11,5 @@ internal sealed class ExamplePropertyKey<V> : CoanaPropertyKey<V> {
     object SubmitNote : ExamplePropertyKey<String>()
     object SubmitProgress : ExamplePropertyKey<Double>()
 
-    override fun toString() = javaClass.simpleName
+    override fun toString(): String = javaClass.simpleName
 }

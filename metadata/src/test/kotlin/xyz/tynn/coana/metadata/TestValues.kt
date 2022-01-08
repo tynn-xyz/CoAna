@@ -3,6 +3,6 @@
 
 package xyz.tynn.coana.metadata
 
-val intValue = 1
-val doubleValue = 2.2
-val stringValue = "3.3.3"
+internal const val intValue = 1
+internal const val doubleValue = 2.2
+internal const val stringValue = "3.3.3"

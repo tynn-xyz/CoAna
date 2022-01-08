@@ -3,7 +3,7 @@
 
 package xyz.tynn.coana
 
-sealed class TestPropertyKey<V> : CoanaPropertyKey<V> {
+internal sealed class TestPropertyKey<V> : CoanaPropertyKey<V> {
     object Double : TestPropertyKey<kotlin.Double>()
     object Long : TestPropertyKey<kotlin.Long>()
     object String : TestPropertyKey<kotlin.String>()

@@ -1,7 +1,6 @@
 # Coana
-[![Build][travis-shield]][travis]
-[![Download][bintray-shield]][bintray]
-[![Coverage][codecov-shield]][codecov]
+[![Build][build-shield]][build]
+[![Download][download-shield]][download]
 
 #### _Coroutine Analytics_ `MetaData` elements
 
@@ -83,7 +82,7 @@ to a `CoroutineContext`.
 Use `CoroutineContext.metadata` to get all a set of all `MetaData` attached
 to the context.
 
-### Download
+### Installation
 
     implementation "xyz.tynn.coana:metadata:$coanaVersion"
 
@@ -105,9 +104,7 @@ to the context.
     limitations under the License.
 
 
-  [travis-shield]: https://travis-ci.com/tynn-xyz/Coana.svg
-  [travis]: https://travis-ci.com/tynn-xyz/Coana
-  [codecov-shield]: https://codecov.io/gh/tynn-xyz/Coana/badge.svg
-  [codecov]: https://codecov.io/gh/tynn-xyz/Coana
-  [bintray-shield]: https://api.bintray.com/packages/tynn-xyz/maven/Coana/images/download.svg
-  [bintray]: https://bintray.com/tynn-xyz/maven/Coana/_latestVersion
+  [build]: https://github.com/tynn-xyz/Coana/actions
+  [build-shield]: https://img.shields.io/github/workflow/status/tynn-xyz/Coana/Build
+  [download]: https://search.maven.org/search?q=xyz.tynn.coana
+  [download-shield]: https://img.shields.io/maven-central/v/xyz.tynn.coana/library

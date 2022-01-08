@@ -3,7 +3,7 @@
 
 package xyz.tynn.coana.metadata
 
-object TestKey : MetaData.Key<String> {
+internal object TestKey : MetaData.Key<String> {
     @Suppress("UNCHECKED_CAST")
     fun <T> cast() = this as MetaData.Key<T>
 }

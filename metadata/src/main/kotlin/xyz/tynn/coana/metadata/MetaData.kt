@@ -11,12 +11,12 @@ import kotlin.coroutines.CoroutineContext
  * @property key The key of this coroutine context metadata.
  * @property value The key of this coroutine context metadata.
  */
-data class MetaData<Value>(
+public data class MetaData<Value>(
     override val key: Key<in Value>,
-    val value: Value
+    val value: Value,
 ) : CoroutineContext.Element {
     /**
      * Key for the [MetaData] of [CoroutineContext].
      */
-    interface Key<V> : CoroutineContext.Key<MetaData<V>>
+    public interface Key<V> : CoroutineContext.Key<MetaData<V>>
 }

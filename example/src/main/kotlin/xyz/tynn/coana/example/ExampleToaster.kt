@@ -17,15 +17,18 @@ import xyz.tynn.coana.withCoanaScope
 import java.util.concurrent.atomic.AtomicLong
 import kotlin.coroutines.CoroutineContext
 
-internal class ExampleToaster(
-    private val context: Context
-) {
+internal class ExampleToaster {
 
     private val count = AtomicLong()
 
+    private val job = SupervisorJob()
+    private val scope = CoroutineScope(job)
+
+    fun destroy() = job.cancel()
+
     fun prepareToast(
-        block: suspend CoroutineScope.() -> Unit
-    ) = GlobalScope.launch {
+        block: suspend CoroutineScope.() -> Unit,
+    ) = scope.launch {
         withCoanaScope("Coana") {
             withCoanaProperty(SubmitCount, count.incrementAndGet()) {
                 block()
@@ -33,12 +36,12 @@ internal class ExampleToaster(
         }
     }
 
-    suspend fun makeToast(
-        coroutineContext: CoroutineContext
+    suspend fun Context.makeToast(
+        coroutineContext: CoroutineContext,
     ) = coroutineScope {
         withContext(Main + coroutineContext) {
             withCoanaProperty(AppVersion, VERSION_NAME) {
-                makeText(context, coana.toString(), LENGTH_LONG).show()
+                makeText(applicationContext, coana.toString(), LENGTH_LONG).show()
             }
         }
     }

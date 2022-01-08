@@ -8,18 +8,18 @@ package xyz.tynn.coana
  *
  * This type serves as a generic marker for [CoanaPropertyKey].
  */
-sealed class CoanaValue<Value> {
+public sealed class CoanaValue<Value> {
     internal abstract val value: Value
 
     internal data class Double(
-        override val value: kotlin.Double
+        override val value: kotlin.Double,
     ) : CoanaValue<kotlin.Double>()
 
     internal data class Long(
-        override val value: kotlin.Long
+        override val value: kotlin.Long,
     ) : CoanaValue<kotlin.Long>()
 
     internal data class String(
-        override val value: kotlin.String
+        override val value: kotlin.String,
     ) : CoanaValue<kotlin.String>()
 }

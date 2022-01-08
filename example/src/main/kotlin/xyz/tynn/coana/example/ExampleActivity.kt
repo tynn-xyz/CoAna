@@ -8,45 +8,54 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.SeekBar
-import kotlinx.android.synthetic.main.activity_example.*
+import android.widget.SeekBar.OnSeekBarChangeListener
 import xyz.tynn.coana.CoanaProperty
 import xyz.tynn.coana.example.ExamplePropertyKey.SubmitNote
 import xyz.tynn.coana.example.ExamplePropertyKey.SubmitProgress
+import xyz.tynn.coana.example.databinding.ActivityExampleBinding
+import xyz.tynn.coana.example.databinding.ActivityExampleBinding.inflate
 import xyz.tynn.coana.withCoanaContext
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 class ExampleActivity : Activity() {
 
-    private val toaster by lazy { ExampleToaster(applicationContext) }
+    private lateinit var toaster: ExampleToaster
 
     private var properties: CoroutineContext = EmptyCoroutineContext
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_example)
-        bindButtons()
-        bindInputs()
+        toaster = ExampleToaster()
+        with(inflate(layoutInflater)) {
+            setContentView(root)
+            bindButtons()
+            bindInputs()
+        }
     }
 
-    private fun bindButtons() = with(toaster) {
+    private fun ActivityExampleBinding.bindButtons() {
         submit.setOnClickListener {
-            prepareToast {
-                makeToast(properties)
+            with(toaster) {
+                prepareToast {
+                    makeToast(properties)
+                }
             }
         }
 
-        submit_context.setOnClickListener {
-            prepareToast {
-                withCoanaContext("Example") {
-                    makeToast(properties)
+        submitContext.setOnClickListener {
+            with(toaster) {
+                prepareToast {
+                    withCoanaContext("Example") {
+                        makeToast(properties)
+                    }
                 }
             }
         }
     }
 
-    private fun bindInputs() {
-        progress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+    private fun ActivityExampleBinding.bindInputs() {
+        progress.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 properties += CoanaProperty(SubmitProgress, progress.toDouble() / seekBar.max)
             }
@@ -71,5 +80,10 @@ class ExampleActivity : Activity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
+    }
+
+    override fun onDestroy() {
+        toaster.destroy()
+        super.onDestroy()
     }
 }

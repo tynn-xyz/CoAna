@@ -13,10 +13,10 @@ package xyz.tynn.coana
  * @property longProperties The long properties of the coroutine context.
  * @property stringProperties The string properties of the coroutine context.
  */
-data class Coana internal constructor(
+public data class Coana internal constructor(
     val scope: String,
     val context: String?,
     val doubleProperties: Map<CoanaPropertyKey<Double>, Double>,
     val longProperties: Map<CoanaPropertyKey<Long>, Long>,
-    val stringProperties: Map<CoanaPropertyKey<String>, String>
+    val stringProperties: Map<CoanaPropertyKey<String>, String>,
 )

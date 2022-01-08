@@ -10,20 +10,22 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class CoroutinesKtTest {
+internal class CoroutinesKtTest {
 
-    val scope = "scope"
-    val context = "context"
-    val long = 1L
-    val double = 2.2
-    val string = "3.3.3"
+    private val scope = "scope"
+    private val context = "context"
+    private val long = 1L
+    private val double = 2.2
+    private val string = "3.3.3"
 
     @Test
     fun `coana should fail without a scope`() = runBlocking {
-        assertFailsWith<IllegalStateException> {
-            coana
-        }
-        Unit
+        assertEquals(
+            "CoanaScope missing",
+            assertFailsWith<IllegalStateException> {
+                coana
+            }.message,
+        )
     }
 
     @Test

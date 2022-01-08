@@ -8,7 +8,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Contains all the [MetaData] of the [CoroutineContext].
  */
-val CoroutineContext.metadata
-    get() = fold(mutableSetOf<MetaData<*>>()) { acc, element ->
+public val CoroutineContext.metadata: Set<MetaData<*>>
+    get() = fold(mutableSetOf()) { acc, element ->
         acc.apply { (element as? MetaData<*>)?.let(::add) }
-    }.toSet()
+    }
