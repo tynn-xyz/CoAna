@@ -1,9 +1,10 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
+    id 'maven-publish'
 }
 
 dependencies {
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
 }
 
 publishing {

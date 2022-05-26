@@ -1,4 +1,3 @@
-apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.dokka'
 
 kotlin {
@@ -8,14 +7,6 @@ kotlin {
 java {
     withJavadocJar()
     withSourcesJar()
-}
-
-publishing {
-    publications {
-        release(MavenPublication) {
-            from components.java
-        }
-    }
 }
 
 dependencies {

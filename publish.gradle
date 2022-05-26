@@ -3,6 +3,14 @@ group = 'xyz.tynn.coana'
 if (project != rootProject) publishing {
     apply plugin: 'signing'
 
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
     signing {
         final signingKey = System.env.SIGNING_KEY
         final signingPassword = System.env.SIGNING_PASSWORD
